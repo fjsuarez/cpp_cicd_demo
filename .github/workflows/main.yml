@@ -1,0 +1,42 @@
+name: C++ CI/CD
+on: # la accion que gatilla el pipeline
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    build-and-test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+            
+            - name: Instalar dependencias
+              run: |
+                # no hay dependencias para este proyecto
+                echo "No hay dependencias para instalar"
+
+            - name: Configurar Cmake
+              run: |
+                cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+            - name: Compilar el proyecto
+              run: |
+                cmake --build build --config Release
+
+            - name: Ejecutar pruebas
+              run: |
+                echo "No hay pruebas para ejecutar"
+                # gtest
+                # ctest
+            
+            - name: Ejecutar el programa
+              run: |
+                ./build/MiApp
+
+            - name: Publicar artefactos
+              uses: actions/upload-artifact@v2
+              with:
+                name: MiApp-${{ github.run_id }}
+                path: build/MiApp
